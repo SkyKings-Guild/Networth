@@ -1,10 +1,10 @@
 [project]
-name = "networth"
-version = "0.1.0"
-description = "Add your description here"
+name = "skynetworth"
+version = "1.0.0"
+description = "Calculate a SkyBlock player's networth."
 readme = "README.md"
 authors = [
-    { name = "plun1331", email = "plun1331@gmail.com" }
+    { name = "plun1331", email = "plun@plunthe.dev" }
 ]
 requires-python = ">=3.13"
 dependencies = [
@@ -15,3 +15,8 @@ dependencies = [
 [build-system]
 requires = ["uv_build>=0.12.21,<0.13.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+docs = [
+    "sphinx>=9.1.0",
+]

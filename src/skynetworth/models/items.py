@@ -21,6 +21,7 @@ __all__ = (
     "ParsedGemstone",
 )
 
+
 class FNBT:
     def __init__(self, value):
         self.value = value

@@ -238,7 +238,7 @@ PET_LEVELING_DATA = {
         1886700,
         1886700,
         1886700,
-        1886700
+        1886700,
     ],
     "rarity_offset": {
         "COMMON": 0,
@@ -248,8 +248,8 @@ PET_LEVELING_DATA = {
         "LEGENDARY": 20,
         "MYTHIC": 20,
         "SPECIAL": 16,
-        "VERY_SPECIAL": 20
-    }
+        "VERY_SPECIAL": 20,
+    },
 }
 MINECRAFT_FMT_REGEX = re.compile(r"§[a-z\d]")
 DEFAULT_NW_SETTINGS: NetworthSettings = {
@@ -258,6 +258,7 @@ DEFAULT_NW_SETTINGS: NetworthSettings = {
     "cosmetic mods",
     "hunting box",
 }
+
 
 def _calculate_level(
     xp: float, levels: list[float] | list[int], *, remove_xp: bool = True
@@ -274,14 +275,19 @@ def _calculate_level(
             break
     return lvl
 
+
 async def pet_skill_level(pet: dict) -> dict[str, int | float]:
     maxlevel = (
         200 if pet["type"] in ("GOLDEN_DRAGON", "JADE_DRAGON", "ROSE_DRAGON") else 100
     )
     rarity_offset = PET_LEVELING_DATA["rarity_offset"][pet["tier"]]
-    levels: list[int] = cast(list[int], PET_LEVELING_DATA["levels"][rarity_offset : rarity_offset + maxlevel - 1])  # type: ignore
+    levels: list[int] = cast(
+        list[int],
+        PET_LEVELING_DATA["levels"][rarity_offset : rarity_offset + maxlevel - 1],
+    )  # type: ignore
     level = _calculate_level(pet.get("exp", 0), levels) + 1
     return {"xpMax": sum(levels), "level": min(level, maxlevel)}
+
 
 def remove_minecraft_formatting(text: str) -> str:
     return MINECRAFT_FMT_REGEX.sub("", text)
@@ -312,6 +318,7 @@ async def parse_nbt(nbt_data, *, loop=None, decode_b64=True):
         loop = asyncio.get_event_loop()
     data: NBTFile = await loop.run_in_executor(None, _parse, nbt_data, decode_b64)
     return data
+
 
 def cget(dictionary, *args, default=None):
     if dictionary is None:

@@ -6,6 +6,7 @@ NetworthSettings = Set[
 
 Rarity = Literal["common", "uncommon", "rare", "epic", "legendary", "mythic", "special"]
 
+
 class Enchantment(TypedDict):
     name: str
     id: str
@@ -23,7 +24,6 @@ class Accessory(TypedDict):
     removed: NotRequired[bool]
     rift: NotRequired[bool]
     duplicate: NotRequired[bool]
-
 
 
 class GemstoneStats(TypedDict):
@@ -50,13 +50,14 @@ class AttributeShard(TypedDict):
     misc_id: str
 
 
-class UpgradeCost(TypedDict):
-    ...
+class UpgradeCost(TypedDict): ...
+
 
 class EssenceUpgradeCost(UpgradeCost):
     type: Literal["ESSENCE"]
     essence_type: str
     amount: int
+
 
 class ItemUpgradeCost(UpgradeCost):
     type: Literal["ITEM"]
@@ -67,19 +68,22 @@ class ItemUpgradeCost(UpgradeCost):
 UpgradeCostUnion = EssenceUpgradeCost | ItemUpgradeCost
 
 
-class GemstoneSlotUnlockCost(TypedDict):
-    ...
+class GemstoneSlotUnlockCost(TypedDict): ...
+
 
 class ItemGemstoneSlotUnlockCost(GemstoneSlotUnlockCost):
     type: Literal["ITEM"]
     item_id: str
     amount: int
 
+
 class CoinGemstoneSlotUnlockCost(GemstoneSlotUnlockCost):
     type: Literal["COINS"]
     coins: int
 
+
 GemstoneSlotUnlockCostUnion = ItemGemstoneSlotUnlockCost | CoinGemstoneSlotUnlockCost
+
 
 class GemstoneSlot(TypedDict):
     slot_type: str

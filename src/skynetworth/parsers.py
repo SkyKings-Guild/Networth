@@ -1,9 +1,8 @@
 from .models import NetworthItem
 from .utils import cget, parse_nbt
 
-__all__ = (
-    "parse_inventory",
-)
+__all__ = ("parse_inventory",)
+
 
 async def parse_inventory(inventory_data: str) -> list["NetworthItem"]:
     """Parse an inventory data string into a list of NetworthItem objects.

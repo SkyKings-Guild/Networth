@@ -498,7 +498,9 @@ class ItemUpgradeLevel(ItemPriceCalculation):
         if item.attributes is None or item.attributes.upgrade_level <= 0:
             return None
         upgrade_level = item.attributes.upgrade_level
-        costs: list[UpgradeCostUnion] = (await manager.upgrade_costs()).get(item.item_id.upper(), [])
+        costs: list[UpgradeCostUnion] = (await manager.upgrade_costs()).get(
+            item.item_id.upper(), []
+        )
         calc = cls(
             id="upgrade_level",
             display="Stars",
@@ -936,7 +938,9 @@ class ItemDrillParts(ItemPriceCalculation):
                 "price": price,
             }
         if item.attributes.drill_part_engine is not None:
-            price = await manager.get_price(item.attributes.drill_part_engine.lower(), 0)
+            price = await manager.get_price(
+                item.attributes.drill_part_engine.lower(), 0
+            )
             calc.value += price
             calc.debug_info["engine"] = {
                 "id": item.attributes.drill_part_engine,
@@ -1016,7 +1020,9 @@ class PetBase(PetPriceCalculation):
         *,
         settings: "NetworthSettings | None" = None,
     ) -> None:
-        lvl1_price, lvl100_price, lvl200_price = await get_pet_prices_from_db(pet, manager)
+        lvl1_price, lvl100_price, lvl200_price = await get_pet_prices_from_db(
+            pet, manager
+        )
         pet_skill = await pet_skill_level(pet.model_dump())
         pet.skykings_id = f"lvl_{int(pet_skill['level'])}_{pet.tier}_{pet.type}".lower()
         pet.display_name = (

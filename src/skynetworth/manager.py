@@ -46,11 +46,18 @@ from .parsers import parse_inventory
 from .pricing import PriceProvider
 from .utils import DEFAULT_NW_SETTINGS
 from .constants import DefaultConstantsProvider, ConstantsProvider
-from .types import Accessory, AttributeShard, Enchantment, Gemstone, GemstoneSlot, NetworthSettings, UpgradeCostUnion
-
-__all__ = (
-    "NetworthManager",
+from .types import (
+    Accessory,
+    AttributeShard,
+    Enchantment,
+    Gemstone,
+    GemstoneSlot,
+    NetworthSettings,
+    UpgradeCostUnion,
 )
+
+__all__ = ("NetworthManager",)
+
 
 class NetworthManager:
     ITEM_CALCULATORS: tuple[type[ItemPriceCalculation], ...] = (
@@ -94,7 +101,7 @@ class NetworthManager:
         uuid: str,
         *,
         constants_provider: ConstantsProvider | None = None,
-        price_provider: PriceProvider
+        price_provider: PriceProvider,
     ) -> None:
         self.profile: SkyBlockProfile | None = profile
         self.museum_data: MuseumMemberData | None = museum
@@ -161,9 +168,21 @@ class NetworthManager:
         return sum(self.attributes_value.values())
 
     @classmethod
-    async def evaluate_single_item(cls, item: NetworthItem, *, constants_provider: ConstantsProvider | None = None, price_provider: PriceProvider) -> NetworthItem:
+    async def evaluate_single_item(
+        cls,
+        item: NetworthItem,
+        *,
+        constants_provider: ConstantsProvider | None = None,
+        price_provider: PriceProvider,
+    ) -> NetworthItem:
         settings: NetworthSettings = set(DEFAULT_NW_SETTINGS)
-        manager = cls(None, None, "", constants_provider=constants_provider, price_provider=price_provider)
+        manager = cls(
+            None,
+            None,
+            "",
+            constants_provider=constants_provider,
+            price_provider=price_provider,
+        )
         item.reset()
         if await item.should_evaluate(manager, settings):
             for calculator in manager.ITEM_CALCULATORS:
@@ -363,16 +382,13 @@ class NetworthManager:
         return await self._constants_provider.dungeon_items()
 
     @overload
-    async def get_price(self, item_id: str) -> int:
-        ...
+    async def get_price(self, item_id: str) -> int: ...
 
     @overload
-    async def get_price(self, item_id: str, default: int) -> int:
-        ...
+    async def get_price(self, item_id: str, default: int) -> int: ...
 
     @overload
-    async def get_price(self, item_id: str, default: None) -> int | None:
-        ...
+    async def get_price(self, item_id: str, default: None) -> int | None: ...
 
     async def get_price(self, item_id: str, default: int | None = 0) -> int | None:
         return await self._price_provider.get_price(item_id, default=default)

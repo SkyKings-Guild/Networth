@@ -4,13 +4,24 @@ from abc import ABC, abstractmethod
 from typing import Any
 from urllib.request import Request, urlopen
 
-from .types import Accessory, AttributeShard, Enchantment, Gemstone, GemstoneSlot, UpgradeCostUnion
+from .types import (
+    Accessory,
+    AttributeShard,
+    Enchantment,
+    Gemstone,
+    GemstoneSlot,
+    UpgradeCostUnion,
+)
 
 __all__ = (
     "ConstantsProvider",
     "DefaultConstantsProvider",
 )
 
+__all__ = (
+    "ConstantsProvider",
+    "DefaultConstantsProvider",
+)
 
 
 class ConstantsProvider(ABC):
@@ -89,7 +100,9 @@ class DefaultConstantsProvider(ConstantsProvider):
 
     async def get_item_api_response(self) -> dict[str, Any]:
         if self._item_api_response is None:
-            self._item_api_response = await asyncio.to_thread(self._fetch_item_api_response)
+            self._item_api_response = await asyncio.to_thread(
+                self._fetch_item_api_response
+            )
         return self._item_api_response
 
     @classmethod
@@ -130,7 +143,9 @@ class DefaultConstantsProvider(ConstantsProvider):
         }
 
     async def attribute_shards(self):
-        return (await self.get_constants("skyblock/attribute_shards.json"))["attributes"]
+        return (await self.get_constants("skyblock/attribute_shards.json"))[
+            "attributes"
+        ]
 
     async def soulbound_items(self):
         items = await self.get_item_api_response()
@@ -138,11 +153,14 @@ class DefaultConstantsProvider(ConstantsProvider):
 
     async def cosmetic_items(self):
         items = await self.get_item_api_response()
-        return [item["id"] for item in items.values()
-                if item.get("category").lower() == "cosmetic"
-                or "furniture" in item
-                or "DISC" in item["id"].upper()
-                or item["id"].upper().endswith("_PERSONALITY")]
+        return [
+            item["id"]
+            for item in items.values()
+            if item.get("category").lower() == "cosmetic"
+            or "furniture" in item
+            or "DISC" in item["id"].upper()
+            or item["id"].upper().endswith("_PERSONALITY")
+        ]
 
     async def upgrade_costs(self):
         items = await self.get_item_api_response()
@@ -154,7 +172,6 @@ class DefaultConstantsProvider(ConstantsProvider):
 
     async def dungeon_items(self):
         items = await self.get_item_api_response()
-        return [item["id"] for item in items.values() if item.get("gungeon_item", False)]
-
-
-
+        return [
+            item["id"] for item in items.values() if item.get("gungeon_item", False)
+        ]
