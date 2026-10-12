@@ -1,6 +1,6 @@
 [project]
 name = "skynetworth"
-version = "1.0.0"
+version = "1.0.1"
 description = "Calculate a SkyBlock player's networth."
 readme = "README.md"
 authors = [
