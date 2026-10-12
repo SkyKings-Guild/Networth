@@ -1,5 +1,3 @@
-from skynetworth import DefaultConstantsProvider
-
 # SkyNetworth
 
 A package to calculate a SkyBlock player's networth.
