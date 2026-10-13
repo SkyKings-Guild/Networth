@@ -1,0 +1,6 @@
+name = "skynetworth-docs"
+compatibility_date = "2026-10-13"
+pages_build_output_dir = "./_build/html"
+
+[build]
+command = "python -m pip install sphinx sphinx-autodoc-typehints nbt pydantic && PYTHONPATH=src python -m sphinx -b html docs docs/_build/html"
