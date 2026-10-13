@@ -1,9 +1,11 @@
 from typing import Literal, NotRequired, Set, TypedDict
 
+#: A type representing the settings for networth calculations.
 NetworthSettings = Set[
     Literal["cosmetics", "museum", "cosmetic mods", "hunting box", "attributes"]
 ]
 
+#: A type representing the rarity of an item.
 Rarity = Literal["common", "uncommon", "rare", "epic", "legendary", "mythic", "special"]
 
 
@@ -65,6 +67,7 @@ class ItemUpgradeCost(UpgradeCost):
     amount: int
 
 
+#: A union type representing the possible costs for upgrading an item, which can either be an essence cost or an item cost.
 UpgradeCostUnion = EssenceUpgradeCost | ItemUpgradeCost
 
 
@@ -82,6 +85,7 @@ class CoinGemstoneSlotUnlockCost(GemstoneSlotUnlockCost):
     coins: int
 
 
+#: A union type representing the possible costs for unlocking a gemstone slot, which can either be an item cost or a coin cost.
 GemstoneSlotUnlockCostUnion = ItemGemstoneSlotUnlockCost | CoinGemstoneSlotUnlockCost
 
 

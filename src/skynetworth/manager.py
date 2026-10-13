@@ -68,6 +68,39 @@ class NetworthManager:
     :param uuid: The UUID of the player.
     :param constants_provider: A provider for constants used in calculations.
     :param price_provider: A provider for item prices.
+
+    :ivar profile: The SkyBlock profile being evaluated.
+    :ivar museum_data: The museum data for the profile.
+    :ivar uuid: The UUID of the player.
+    :ivar _constants_provider: The provider for constants used in calculations.
+    :ivar _price_provider: The provider for item prices.
+    :ivar _is_parsed: A flag indicating whether the profile has been parsed.
+        If this is False, most of these attributes will be empty or None.
+    :ivar inventory_api_disabled: A flag indicating whether the inventory API is disabled.
+    :ivar inv_content: The contents of the player's inventory.
+    :ivar ender_chest_contents: The contents of the player's ender chest.
+    :ivar inv_armor: The contents of the player's armor slots.
+    :ivar loadout_armor: The contents of the player's loadout armor slots.
+    :ivar talisman_bag: The contents of the player's talisman bag.
+    :ivar equipment_contents: The contents of the player's equipment slots.
+    :ivar loadout_equipment: The contents of the player's loadout equipment slots.
+    :ivar personal_vault_api_disabled: A flag indicating whether the personal vault API is disabled
+    :ivar personal_vault_contents: The contents of the player's personal vault.
+    :ivar backpack_contents: The contents of the player's backpacks.
+    :ivar museum_api_disabled: A flag indicating whether the museum API is disabled.
+    :ivar museum_contents: The contents of the player's museum.
+    :ivar sacks: The counts of the player's sacks.
+    :ivar sacks_value: The total value of the player's sacks.
+    :ivar essences: The counts of the player's essences.
+    :ivar essences_value: The total value of the player's essences.
+    :ivar hunting_box: The counts of the player's hunting box shards.
+    :ivar hunting_box_value: The total value of the player's hunting box shards.
+    :ivar attributes: The counts of the player's attribute shards.
+    :ivar attributes_value: The total value of the player's attribute shards.
+    :ivar coop_bank: The amount of coins in the player's coop bank.
+    :ivar personal_bank: The amount of coins in the player's personal bank.
+    :ivar purse: The amount of coins in the player's purse.
+    :ivar pets: The list of the player's pets.
     """
     ITEM_CALCULATORS: tuple[type[ItemPriceCalculation], ...] = (
         ItemBase,

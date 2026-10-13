@@ -7,3 +7,4 @@ Providers for the game constants required during networth evaluation.
    :members:
    :undoc-members:
    :show-inheritance:
+   :member-order: bysource

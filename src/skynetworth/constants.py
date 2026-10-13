@@ -31,6 +31,7 @@ class ConstantsProvider(ABC):
     async def blocked_enchants(self) -> dict[str, list[str]]:
         """
         Get a dictionary of blocked enchantments, keyed by their ID.
+
         :return: A dictionary mapping enchantment IDs to lists of blocked enchantments.
         """
         ...
@@ -39,6 +40,7 @@ class ConstantsProvider(ABC):
     async def enchants(self) -> dict[str, Enchantment]:
         """
         Get a dictionary of all available enchantments, keyed by their ID.
+
         :return: A dictionary mapping enchantment IDs to their corresponding Enchantment data.
         """
         ...
@@ -47,6 +49,7 @@ class ConstantsProvider(ABC):
     async def accessories(self) -> dict[str, Accessory]:
         """
         A dictionary of all available accessories, keyed by their ID.
+
         :return: A dictionary mapping accessory IDs to their corresponding Accessory data.
         """
         ...
@@ -55,6 +58,7 @@ class ConstantsProvider(ABC):
     async def reforges(self) -> dict[str, str]:
         """
         A dictionary of reforges to their respective item.
+
         :return: A dictionary mapping reforge IDs to their corresponding item IDs.
         """
         ...
@@ -63,6 +67,7 @@ class ConstantsProvider(ABC):
     async def gemstones(self) -> dict[str, Gemstone]:
         """
         A dictionary of all available gemstones, keyed by their ID.
+
         :return: A dictionary mapping gemstone IDs to their corresponding Gemstone data.
         """
         ...
@@ -71,6 +76,7 @@ class ConstantsProvider(ABC):
     async def attribute_shards(self) -> dict[str, AttributeShard]:
         """
         A dictionary of all available attribute shards, keyed by their ID.
+
         :return: A dictionary mapping attribute shard IDs to their corresponding AttributeShard data.
         """
         ...
@@ -79,6 +85,7 @@ class ConstantsProvider(ABC):
     async def soulbound_items(self) -> list[str]:
         """
         A list of all soulbound items.
+
         :return: A list of item IDs that are considered soulbound.
         """
         ...
@@ -87,6 +94,7 @@ class ConstantsProvider(ABC):
     async def cosmetic_items(self) -> list[str]:
         """
         A list of all cosmetic items.
+
         :return: A list of item IDs that are considered cosmetic.
         """
         ...
@@ -95,6 +103,7 @@ class ConstantsProvider(ABC):
     async def upgrade_costs(self) -> dict[str, list[UpgradeCostUnion]]:
         """
         A dictionary of all item upgrade costs, keyed by item ID.
+
         :return: A dictionary mapping item IDs to lists of upgrade cost data.
         """
         ...
@@ -103,6 +112,7 @@ class ConstantsProvider(ABC):
     async def gemstone_slots(self) -> dict[str, list[GemstoneSlot]]:
         """
         A dictionary of all gemstone slots, keyed by item ID.
+
         :return: A dictionary mapping item IDs to lists of gemstone slots.
         """
         ...
@@ -111,6 +121,7 @@ class ConstantsProvider(ABC):
     async def dungeon_items(self) -> list[str]:
         """
         A list of all dungeon items.
+
         :return: A list of item IDs that are considered dungeon items.
         """
         ...

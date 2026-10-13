@@ -7,3 +7,4 @@ Interfaces and implementations for resolving item prices.
    :members:
    :undoc-members:
    :show-inheritance:
+   :member-order: bysource

@@ -252,6 +252,8 @@ PET_LEVELING_DATA = {
     },
 }
 MINECRAFT_FMT_REGEX = re.compile(r"§[a-z\d]")
+
+#: Settings enabled by default when evaluating a profile's networth.
 DEFAULT_NW_SETTINGS: NetworthSettings = {
     "museum",
     "cosmetics",
@@ -265,6 +267,7 @@ def _calculate_level(
 ) -> float:
     """
     Calculate the level of something based on its experience points and the leveling table.
+
     :param xp: The experience points of the thing.
     :param levels: The leveling table.
     :param remove_xp: Whether to remove the experience points from the total when calculating the level.
@@ -286,6 +289,7 @@ def _calculate_level(
 async def pet_skill_level(pet: dict) -> dict[str, int | float]:
     """
     Calculate the level of a pet.
+
     :param pet: The pet data.
     :return: A dictionary containing the maximum experience points and the level of the pet.
     """
@@ -304,6 +308,7 @@ async def pet_skill_level(pet: dict) -> dict[str, int | float]:
 def remove_minecraft_formatting(text: str) -> str:
     """
     Remove Minecraft formatting codes from a string.
+
     :param text: The string to remove formatting codes from.
     :return: The string with formatting codes removed.
     """
@@ -313,6 +318,7 @@ def remove_minecraft_formatting(text: str) -> str:
 def to_roman_numerals(number: int) -> str:
     """
     Convert an integer to a Roman numeral.
+
     :param number: The integer to convert. Must be between 1 and 3999.
     :return: The Roman numeral representation of the integer.
     """
@@ -339,6 +345,7 @@ def _parse(nbt_data: str | bytes, decode_b64: bool=True) -> NBTFile:
 async def parse_nbt(nbt_data: str | bytes, *, loop: asyncio.AbstractEventLoop | None=None, decode_b64: bool=True) -> NBTFile:
     """
     Parse NBT data from a string or bytes asynchronously.
+
     :param nbt_data: The NBT data to parse. Can be a string or bytes.
     :param loop: The event loop to use for asynchronous execution. If None, the default event loop will be used.
     :param decode_b64: Whether to decode the NBT data from base64. Defaults to True.
@@ -353,6 +360,7 @@ async def parse_nbt(nbt_data: str | bytes, *, loop: asyncio.AbstractEventLoop | 
 def cget(dictionary, *args, default=None):
     """
     Get a value from a nested dictionary using a sequence of keys.
+
     :param dictionary: The dictionary to get the value from.
     :param args: A sequence of keys to traverse the nested dictionary.
     :param default: The default value to return if the key is not found. Defaults to None.
@@ -371,6 +379,7 @@ def cget(dictionary, *args, default=None):
 def human_number_format(number):
     """
     Format a number into a human-readable string with suffixes (K, M, B, T).
+
     :param number: The number to format.
     :return: A string representing the formatted number with appropriate suffixes.
     """
