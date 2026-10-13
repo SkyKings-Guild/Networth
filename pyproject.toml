@@ -25,6 +25,9 @@ Homepage = "https://github.com/SkyKings-Guild/Networth/"
 Repository = "https://github.com/SkyKings-Guild/Networth/"
 "Bug Tracker" = "https://github.com/SkyKings-Guild/Networth/issues"
 
+[project.scripts]
+export-docs-requirements = "skynetworth._scripts:export_docs_requirements"
+
 [build-system]
 requires = ["uv_build>=0.12.21,<0.13.0"]
 build-backend = "uv_build"
