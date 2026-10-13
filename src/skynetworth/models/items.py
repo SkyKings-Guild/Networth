@@ -132,6 +132,9 @@ async def dictify(nbt: TAG_Compound | TAG_List | None) -> dict | list | None:
 
 
 class NetworthItem(Model):
+    """
+    Represents an item in a player's inventory, including its attributes, display information, and price calculations.
+    """
     minecraft_id: int
     count: int = 0
     display: ItemDisplay | None = None
@@ -142,6 +145,11 @@ class NetworthItem(Model):
 
     @classmethod
     async def from_nbt(cls, nbt: TAG_Compound) -> Self:
+        """
+        Create a NetworthItem instance from NBT data.
+        :param nbt: The NBT data representing the item.
+        :return: A NetworthItem instance with the parsed data.
+        """
         exa = cget(nbt, "tag", "ExtraAttributes", default=None)
         return cls(
             minecraft_id=await nget(nbt, "id", default=0),
@@ -206,32 +214,61 @@ class NetworthItem(Model):
 
     @property
     def item_id(self) -> str:
+        """
+        Get the item ID, preferring the ExtraAttributes ID if available, otherwise using the Minecraft ID.
+        :return: The item ID as a string.
+        """
         return self.attributes.id if self.attributes else "MC:" + str(self.minecraft_id)
 
     @property
     def item_name(self) -> str:
+        """
+        Get the item name, preferring the display name if available, otherwise using the item ID.
+        :return: The item name as a string.
+        """
         return self.display.name if self.display else self.item_id
 
     @property
     def recombobulated(self) -> bool:
+        """
+        Check if the item has been recombobulated based on its attributes.
+        :return: True if the item has been recombobulated, False otherwise.
+        """
         if self.attributes is None:
             return False
         return self.attributes.rarity_upgrades > 0
 
     @property
     def individual_value(self) -> int:
+        """
+        Calculate the individual value of the item based on its price calculations.
+        :return: The individual value of the item as an integer.
+        """
         return sum(calc.value for calc in self.calculations)
 
     @property
     def value(self) -> int:
+        """
+        Calculate the total value of the item based on its individual value and count.
+        :return: The total value of the item stack as an integer.
+        """
         return self.individual_value * self.count
 
     def reset(self) -> None:
+        """
+        Resets the item's price calculations, clearing any previously calculated values.
+        """
         self.calculations.clear()
 
     async def should_evaluate(
         self, manager: "NetworthManager", settings: NetworthSettings | None = None
     ) -> bool:
+        """
+        Determine if the item should be evaluated for net worth calculations based on its attributes and provided settings.
+        :param manager: The NetworthManager instance used to access soulbound and cosmetic item data.
+        :param settings: Optional settings that may influence the evaluation of the item (e.g., whether to include museum or cosmetic items).
+        :return: True if the item should be evaluated, False otherwise.
+        """
         if (
             # this was changed because items that are permanently soulbound inherently have no value
             # since they cannot be sold, and it is very hard to determine price data for a soulbound item
@@ -258,29 +295,53 @@ class NetworthItem(Model):
 
 
 class NetworthPet(Pet):
+    """
+    Represents a pet in a player's inventory, including its display information and price calculations.
+    """
     display_name: str | None = None
     skykings_id: str | None = None
     calculations: list[PriceCalculation] = Field(default_factory=list)
 
     @property
     def item_id(self) -> str:
+        """
+        Get the item ID for the pet, preferring the SkyKings ID if available, otherwise using the pet's type.
+        The SkyKings ID is a unique identifier for pets, appearing as lvl_<level>_<tier>_<type> (e.g., lvl_200_legendary_golden_dragon).
+        :return: The item ID as a string.
+        """
         if self.skykings_id is None:
             return ""
         return self.skykings_id
 
     @property
     def item_name(self) -> str:
+        """
+        Get the item name for the pet, preferring the display name if available, otherwise using the pet's type.
+        :return: The item name as a string.
+        """
         return self.display_name if self.display_name else self.type
 
     @property
     def recombobulated(self) -> bool:
+        """
+        Check if the pet has been recombobulated. Pets cannot be recombobulated, so this always returns False.
+        :return: False
+        """
         return False
 
     @property
     def value(self) -> int:
+        """
+        Calculate the total value of the pet based on its price calculations.
+        :return: The total value of the pet as an integer.
+        """
         return sum(calc.value for calc in self.calculations)
 
     def reset(self) -> None:
+        """
+        Resets the pet's price calculations, clearing any previously calculated values and resetting display name and SkyKings ID.
+        :return: None
+        """
         self.display_name = None
         self.skykings_id = None
         self.calculations.clear()
@@ -288,6 +349,12 @@ class NetworthPet(Pet):
     async def should_evaluate(
         self, manager: "NetworthManager", settings: NetworthSettings | None = None
     ) -> bool:
+        """
+        Determine if the pet should be evaluated for net worth calculations based on its attributes and provided settings.
+        :param manager: The NetworthManager instance used to access soulbound and cosmetic item data.
+        :param settings: Optional settings that may influence the evaluation of the pet (e.g., whether to include museum or cosmetic items).
+        :return: True if the pet should be evaluated, False otherwise.
+        """
         return True
 
 

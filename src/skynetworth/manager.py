@@ -60,6 +60,15 @@ __all__ = ("NetworthManager",)
 
 
 class NetworthManager:
+    """
+    Manages the calculation of networth for a single SkyBlock profile.
+
+    :param profile: The SkyBlock profile to calculate networth for.
+    :param museum: The museum data for the profile.
+    :param uuid: The UUID of the player.
+    :param constants_provider: A provider for constants used in calculations.
+    :param price_provider: A provider for item prices.
+    """
     ITEM_CALCULATORS: tuple[type[ItemPriceCalculation], ...] = (
         ItemBase,
         ItemEnchant,
@@ -145,24 +154,28 @@ class NetworthManager:
 
     @property
     def total_sacks_value(self) -> int:
+        """Returns the total value of all sacks in the profile."""
         if self.sacks_value is None:
             return 0
         return sum(self.sacks_value.values())
 
     @property
     def total_essences_value(self) -> int:
+        """Returns the total value of all essences in the profile."""
         if self.essences_value is None:
             return 0
         return sum(self.essences_value.values())
 
     @property
     def total_hunting_box_value(self) -> int:
+        """Returns the total value of all hunting box shards in the profile."""
         if self.hunting_box_value is None:
             return 0
         return sum(self.hunting_box_value.values())
 
     @property
     def total_attributes_value(self) -> int:
+        """Returns the total value of all attribute shards in the profile."""
         if self.attributes_value is None:
             return 0
         return sum(self.attributes_value.values())
@@ -175,6 +188,14 @@ class NetworthManager:
         constants_provider: ConstantsProvider | None = None,
         price_provider: PriceProvider,
     ) -> NetworthItem:
+        """
+        Evaluates a single item for its networth value.
+
+        :param item: The item to evaluate.
+        :param constants_provider: A provider for constants used in calculations.
+        :param price_provider: A provider for item prices.
+        :return: The evaluated item with its networth value calculated.
+        """
         settings: NetworthSettings = set(DEFAULT_NW_SETTINGS)
         manager = cls(
             None,
@@ -191,6 +212,9 @@ class NetworthManager:
         return item
 
     async def parse(self):
+        """
+        Parses the profile data and populates the inventory, museum, and other relevant data internally.
+        """
         assert self.profile is not None
         if self._is_parsed:
             raise RuntimeError("NetworthManager has already been parsed.")
@@ -299,6 +323,12 @@ class NetworthManager:
         )
 
     async def evaluate(self, settings: NetworthSettings):
+        """
+        Evaluates the networth of the profile based on the provided settings.
+
+        :param settings: The settings to use for evaluation, determining which items and features to include in the networth calculation.
+        :type settings: NetworthSettings
+        """
         if not self._is_parsed:
             await self.parse()
         for item in self.all_items:
@@ -349,36 +379,80 @@ class NetworthManager:
 
     # Data fetchers
     async def blocked_enchants(self) -> dict[str, list[str]]:
+        """
+        Fetches the blocked enchantments from the constants provider.
+        :return: A dictionary mapping enchantment IDs to lists of blocked enchantments.
+        """
         return await self._constants_provider.blocked_enchants()
 
     async def enchants(self) -> dict[str, Enchantment]:
+        """
+        Fetches the enchantments from the constants provider.
+        :return: A dictionary mapping enchantment IDs to their corresponding Enchantment data.
+        """
         return await self._constants_provider.enchants()
 
     async def accessories(self) -> dict[str, Accessory]:
+        """
+        Fetches the accessories from the constants provider.
+        :return: A dictionary mapping accessory IDs to their corresponding Accessory data.
+        """
         return await self._constants_provider.accessories()
 
     async def reforges(self) -> dict[str, str]:
+        """
+        Fetches the reforges from the constants provider.
+        :return: A dictionary mapping reforge IDs to their corresponding item IDs.
+        """
         return await self._constants_provider.reforges()
 
     async def gemstones(self) -> dict[str, Gemstone]:
+        """
+        Fetches the gemstones from the constants provider.
+        :return: A dictionary mapping gemstone IDs to their corresponding Gemstone data.
+        """
         return await self._constants_provider.gemstones()
 
     async def attribute_shards(self) -> dict[str, AttributeShard]:
+        """
+        Fetches the attribute shards from the constants provider.
+        :return: A dictionary mapping attribute shard IDs to their corresponding AttributeShard data.
+        """
         return await self._constants_provider.attribute_shards()
 
     async def soulbound_items(self) -> list[str]:
+        """
+        Fetches the soulbound items from the constants provider.
+        :return: A list of item IDs that are considered soulbound.
+        """
         return await self._constants_provider.soulbound_items()
 
     async def cosmetic_items(self) -> list[str]:
+        """
+        Fetches the cosmetic items from the constants provider.
+        :return: A list of item IDs that are considered cosmetic.
+        """
         return await self._constants_provider.cosmetic_items()
 
     async def upgrade_costs(self) -> dict[str, list[UpgradeCostUnion]]:
+        """
+        Fetches the upgrade costs from the constants provider.
+        :return: A dictionary mapping item IDs to lists of upgrade cost data.
+        """
         return await self._constants_provider.upgrade_costs()
 
     async def gemstone_slots(self) -> dict[str, list[GemstoneSlot]]:
+        """
+        Fetches the gemstone slots from the constants provider.
+        :return: A dictionary mapping item IDs to lists of gemstone slots.
+        """
         return await self._constants_provider.gemstone_slots()
 
     async def dungeon_items(self) -> list[str]:
+        """
+        Fetches the dungeon items from the constants provider.
+        :return: A list of item IDs that are considered dungeon items.
+        """
         return await self._constants_provider.dungeon_items()
 
     @overload
@@ -391,10 +465,20 @@ class NetworthManager:
     async def get_price(self, item_id: str, default: None) -> int | None: ...
 
     async def get_price(self, item_id: str, default: int | None = 0) -> int | None:
+        """
+        Fetches the price of an item using the price provider.
+        :param item_id: The ID of the item to fetch the price for.
+        :param default: The default value to return if the price is not found. Defaults to 0.
+        :return: The price of the item, or the default value if not found.
+        """
         return await self._price_provider.get_price(item_id, default=default)
 
     @property
     def all_items(self) -> list[NetworthItem]:
+        """
+        Returns a list of all items in all inventories in the profile.
+        :return: A list of all NetworthItem objects in the profile's inventories.
+        """
         if not self._is_parsed:
             raise RuntimeError("NetworthManager has not been parsed yet.")
         return (
@@ -412,16 +496,29 @@ class NetworthManager:
 
     @cached_property
     def member_data(self) -> SkyBlockProfileMember | None:
+        """
+        Returns the member data for the player with the given UUID.
+        :return: The SkyBlockProfileMember object for the player, or None if not found.
+        """
         if self.profile is None:
             return None
         return self.profile.members.get(self.uuid, None)
 
     def set_museum_data(self, museum: MuseumMemberData | None) -> None:
+        """
+        Sets the museum data for the profile and updates the museum API disabled flag.
+        :param museum: The MuseumMemberData object to set for the profile, or None if the museum API is disabled.
+        """
         self.museum_data = museum
         self.museum_api_disabled = museum is None
 
     @property
     def total_networth(self) -> int:
+        """
+        Calculates the total networth of the profile by summing the values of all items, pets, sacks, essences, hunting box shards,
+        attribute shards, coop bank, personal bank, and purse.
+        :return: The total networth value as an integer.
+        """
         return (
             sum(item.value for item in self.all_items)
             + sum(pet.value for pet in self.pets)

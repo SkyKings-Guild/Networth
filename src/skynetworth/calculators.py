@@ -1,4 +1,5 @@
 import asyncio
+from abc import abstractmethod
 from typing import TYPE_CHECKING, cast
 
 import warnings
@@ -56,6 +57,12 @@ __all__ = (
 async def parse_item_gems(
     gems: "dict[str, str | list[str] | ItemGem]", *, slots
 ) -> list["ParsedGemstone"]:
+    """
+    Parse the gems of an item into a list of ParsedGemstone objects.
+    :param gems: A dictionary of gem data.
+    :param slots: A dictionary of gemstone slots.
+    :return: A list of ParsedGemstone objects.
+    """
     from .models import ParsedGemstone, ItemGem
 
     parsed = []
@@ -86,6 +93,13 @@ async def parse_item_gems(
 async def get_pet_prices_from_db(
     pet: "Pet", manager: "NetworthManager"
 ) -> tuple[float | None, float | None, float | None]:
+    """
+    Get the prices of a pet at levels 1, 100, and 200 from the database.
+
+    :param pet: The pet object.
+    :param manager: The NetworthManager object.
+    :return: A tuple containing the prices of the pet at levels 1, 100, and 200.
+    """
     lvl1 = await manager.get_price(f"lvl_1_{pet.tier}_{pet.type}".lower(), None)
     lvl100 = await manager.get_price(f"lvl_100_{pet.tier}_{pet.type}".lower(), None)
     lvl200 = await manager.get_price(f"lvl_200_{pet.tier}_{pet.type}".lower(), None)
@@ -93,6 +107,9 @@ async def get_pet_prices_from_db(
 
 
 class PriceCalculation(Model):
+    """
+    Base class for price calculations.
+    """
     id: str
     display: str
     value: int
@@ -101,6 +118,9 @@ class PriceCalculation(Model):
 
 # Items
 class ItemPriceCalculation(PriceCalculation):
+    """
+    Base class for item price calculations.
+    """
     @classmethod
     async def calculate(
         cls,
@@ -108,7 +128,15 @@ class ItemPriceCalculation(PriceCalculation):
         item: "NetworthItem",
         *,
         settings: "NetworthSettings | None" = None,
-    ) -> None: ...
+    ) -> None:
+        """
+        Calculate the price of an item and append the result to its calculations list.
+
+        :param manager: The NetworthManager object.
+        :param item: The item or pet object to calculate the price for.
+        :param settings: Optional settings for the calculation.
+        """
+        ...
 
 
 class ItemBase(ItemPriceCalculation):
@@ -1008,7 +1036,15 @@ class PetPriceCalculation(PriceCalculation):
         pet: "NetworthPet",
         *,
         settings: "NetworthSettings | None" = None,
-    ) -> None: ...
+    ) -> None:
+        """
+        Calculate the price of an pet and append the result to its calculations list.
+
+        :param manager: The NetworthManager object.
+        :param pet: The item or pet object to calculate the price for.
+        :param settings: Optional settings for the calculation.
+        """
+        ...
 
 
 class PetBase(PetPriceCalculation):

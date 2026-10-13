@@ -263,6 +263,13 @@ DEFAULT_NW_SETTINGS: NetworthSettings = {
 def _calculate_level(
     xp: float, levels: list[float] | list[int], *, remove_xp: bool = True
 ) -> float:
+    """
+    Calculate the level of something based on its experience points and the leveling table.
+    :param xp: The experience points of the thing.
+    :param levels: The leveling table.
+    :param remove_xp: Whether to remove the experience points from the total when calculating the level.
+    :return: The level of the thing.
+    """
     lvl = 0
     rexp = xp
     for level in levels:
@@ -277,6 +284,11 @@ def _calculate_level(
 
 
 async def pet_skill_level(pet: dict) -> dict[str, int | float]:
+    """
+    Calculate the level of a pet.
+    :param pet: The pet data.
+    :return: A dictionary containing the maximum experience points and the level of the pet.
+    """
     maxlevel = (
         200 if pet["type"] in ("GOLDEN_DRAGON", "JADE_DRAGON", "ROSE_DRAGON") else 100
     )
@@ -290,10 +302,20 @@ async def pet_skill_level(pet: dict) -> dict[str, int | float]:
 
 
 def remove_minecraft_formatting(text: str) -> str:
+    """
+    Remove Minecraft formatting codes from a string.
+    :param text: The string to remove formatting codes from.
+    :return: The string with formatting codes removed.
+    """
     return MINECRAFT_FMT_REGEX.sub("", text)
 
 
 def to_roman_numerals(number: int) -> str:
+    """
+    Convert an integer to a Roman numeral.
+    :param number: The integer to convert. Must be between 1 and 3999.
+    :return: The Roman numeral representation of the integer.
+    """
     if not (0 < number < 4000):
         raise ValueError("Number must be between 1 and 3999")
     val = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
@@ -306,14 +328,22 @@ def to_roman_numerals(number: int) -> str:
     return roman_num
 
 
-def _parse(nbt_data, decode_b64=True):
+def _parse(nbt_data: str | bytes, decode_b64: bool=True) -> NBTFile:
+
     if decode_b64:
         nbt_data = base64.b64decode(nbt_data)
     data: NBTFile = NBTFile(fileobj=BytesIO(nbt_data))
     return data
 
 
-async def parse_nbt(nbt_data, *, loop=None, decode_b64=True):
+async def parse_nbt(nbt_data: str | bytes, *, loop: asyncio.AbstractEventLoop | None=None, decode_b64: bool=True) -> NBTFile:
+    """
+    Parse NBT data from a string or bytes asynchronously.
+    :param nbt_data: The NBT data to parse. Can be a string or bytes.
+    :param loop: The event loop to use for asynchronous execution. If None, the default event loop will be used.
+    :param decode_b64: Whether to decode the NBT data from base64. Defaults to True.
+    :return: The parsed NBT data as an NBTFile object.
+    """
     if loop is None:
         loop = asyncio.get_event_loop()
     data: NBTFile = await loop.run_in_executor(None, _parse, nbt_data, decode_b64)
@@ -321,6 +351,13 @@ async def parse_nbt(nbt_data, *, loop=None, decode_b64=True):
 
 
 def cget(dictionary, *args, default=None):
+    """
+    Get a value from a nested dictionary using a sequence of keys.
+    :param dictionary: The dictionary to get the value from.
+    :param args: A sequence of keys to traverse the nested dictionary.
+    :param default: The default value to return if the key is not found. Defaults to None.
+    :return: The value from the nested dictionary, or the default value if the key is not found.
+    """
     if dictionary is None:
         return default
     result = dictionary
@@ -332,6 +369,11 @@ def cget(dictionary, *args, default=None):
 
 
 def human_number_format(number):
+    """
+    Format a number into a human-readable string with suffixes (K, M, B, T).
+    :param number: The number to format.
+    :return: A string representing the formatted number with appropriate suffixes.
+    """
     number = int(round(number, 0))
     if number == 0:
         return "0"

@@ -29,62 +29,98 @@ class ConstantsProvider(ABC):
 
     @abstractmethod
     async def blocked_enchants(self) -> dict[str, list[str]]:
-        """A list of blocked enchants for each item type. These are mostly enchants that come with certain items."""
+        """
+        Get a dictionary of blocked enchantments, keyed by their ID.
+        :return: A dictionary mapping enchantment IDs to lists of blocked enchantments.
+        """
         ...
 
     @abstractmethod
     async def enchants(self) -> dict[str, Enchantment]:
-        """A dictionary of all available enchants, keyed by their ID."""
+        """
+        Get a dictionary of all available enchantments, keyed by their ID.
+        :return: A dictionary mapping enchantment IDs to their corresponding Enchantment data.
+        """
         ...
 
     @abstractmethod
     async def accessories(self) -> dict[str, Accessory]:
-        """A dictionary of all available accessories, keyed by their ID."""
+        """
+        A dictionary of all available accessories, keyed by their ID.
+        :return: A dictionary mapping accessory IDs to their corresponding Accessory data.
+        """
         ...
 
     @abstractmethod
     async def reforges(self) -> dict[str, str]:
-        """A dictionary of reforges to their respective item."""
+        """
+        A dictionary of reforges to their respective item.
+        :return: A dictionary mapping reforge IDs to their corresponding item IDs.
+        """
         ...
 
     @abstractmethod
     async def gemstones(self) -> dict[str, Gemstone]:
-        """A dictionary of all available gemstones, keyed by their ID."""
+        """
+        A dictionary of all available gemstones, keyed by their ID.
+        :return: A dictionary mapping gemstone IDs to their corresponding Gemstone data.
+        """
         ...
 
     @abstractmethod
     async def attribute_shards(self) -> dict[str, AttributeShard]:
-        """A dictionary of all available attribute shards, keyed by their ID."""
+        """
+        A dictionary of all available attribute shards, keyed by their ID.
+        :return: A dictionary mapping attribute shard IDs to their corresponding AttributeShard data.
+        """
         ...
 
     @abstractmethod
     async def soulbound_items(self) -> list[str]:
-        """A list of all soulbound items."""
+        """
+        A list of all soulbound items.
+        :return: A list of item IDs that are considered soulbound.
+        """
         ...
 
     @abstractmethod
     async def cosmetic_items(self) -> list[str]:
-        """A list of all cosmetic items."""
+        """
+        A list of all cosmetic items.
+        :return: A list of item IDs that are considered cosmetic.
+        """
         ...
 
     @abstractmethod
     async def upgrade_costs(self) -> dict[str, list[UpgradeCostUnion]]:
-        """A dictionary of all item upgrade costs, keyed by item ID."""
+        """
+        A dictionary of all item upgrade costs, keyed by item ID.
+        :return: A dictionary mapping item IDs to lists of upgrade cost data.
+        """
         ...
 
     @abstractmethod
     async def gemstone_slots(self) -> dict[str, list[GemstoneSlot]]:
-        """A dictionary of all gemstone slots, keyed by item ID."""
+        """
+        A dictionary of all gemstone slots, keyed by item ID.
+        :return: A dictionary mapping item IDs to lists of gemstone slots.
+        """
         ...
 
     @abstractmethod
     async def dungeon_items(self) -> list[str]:
-        """A list of all dungeon items."""
+        """
+        A list of all dungeon items.
+        :return: A list of item IDs that are considered dungeon items.
+        """
         ...
 
 
 class DefaultConstantsProvider(ConstantsProvider):
-    """Loads networth constants from the SkyKings bot-data repository and the Hypixel API."""
+    """
+    A default implementation of ConstantsProvider that fetches constants
+    from the SkyKings-Guild Bot-Data repository and the Hypixel API.
+    """
 
     BASE_URL = "https://raw.githubusercontent.com/SkyKings-Guild/Bot-Data/main/"
     HYPIXEL_API_URL = "https://api.hypixel.net/v2/resources/skyblock/items"

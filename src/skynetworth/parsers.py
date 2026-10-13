@@ -5,13 +5,11 @@ __all__ = ("parse_inventory",)
 
 
 async def parse_inventory(inventory_data: str) -> list["NetworthItem"]:
-    """Parse an inventory data string into a list of NetworthItem objects.
+    """
+    Parse an inventory data string into a list of NetworthItem objects.
 
-    Args:
-        inventory_data (str): The inventory data string to parse.
-
-    Returns:
-        list[NetworthItem]: A list of NetworthItem objects parsed from the inventory data.
+    :param inventory_data: A string containing the inventory data in NBT format.
+    :return: A list of NetworthItem objects parsed from the inventory data.
     """
     return [
         await NetworthItem.from_nbt(item)
