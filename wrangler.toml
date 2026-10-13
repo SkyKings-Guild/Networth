@@ -2,5 +2,8 @@ name = "networth-docs"
 compatibility_date = "2026-10-13"
 pages_build_output_dir = "docs/_build/html"
 
+[assets]
+directory = "docs/_build/html"
+
 [build]
 command = "python -m pip install -r docs/requirements.txt && PYTHONPATH=. python -m sphinx -b html docs docs/_build/html"
