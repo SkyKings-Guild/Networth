@@ -23,6 +23,7 @@ license-files = ["LICENSE.md"]
 [project.urls]
 Homepage = "https://github.com/SkyKings-Guild/Networth/"
 Repository = "https://github.com/SkyKings-Guild/Networth/"
+Documentation = "https://skynetworth.plunthe.dev/"
 "Bug Tracker" = "https://github.com/SkyKings-Guild/Networth/issues"
 
 [project.scripts]

@@ -106,4 +106,4 @@ Contributions are welcome! We use ``uv`` for development. To get started, clone 
 License
 --------
 
-This project is licensed under the BSD 3-Clause License. See the `LICENSE <LICENSE.md>`_ file for details.
+This project is licensed under the BSD 3-Clause License. See the `LICENSE <https://github.com/SkyKings-Guild/Networth/blob/main/LICENSE.md>`_ file for details.
