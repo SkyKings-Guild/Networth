@@ -11,6 +11,19 @@ dependencies = [
     "nbt>=1.5.1",
     "pydantic>=2.14.0",
 ]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Topic :: Games/Entertainment",
+]
+license = "BSD-3-Clause"
+license-files = ["LICENSE.md"]
+
+[project.urls]
+Homepage = "https://github.com/SkyKings-Guild/Networth/"
+Repository = "https://github.com/SkyKings-Guild/Networth/"
+"Bug Tracker" = "https://github.com/SkyKings-Guild/Networth/issues"
 
 [build-system]
 requires = ["uv_build>=0.12.21,<0.13.0"]
